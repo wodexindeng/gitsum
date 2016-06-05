@@ -1,0 +1,49 @@
+hi all:
+
+    为了统一公司版本管理规范，准备把公司代码迁移gitlab。以下是的一个迁移计划和可能涉及到的git使用规范，各位同学知晓一下。
+
+    后期代码的持续集成，持续发布只支持gitlab内的版本库。
+
+    具体关闭目前在使用的svn和git版本库时间待定。请关注后期通知。
+
+
+
+代码迁移到Gitlab
+
+目前公司代码版本管理存在SVN和GIT两个版本管理软件。后期准备统一使用GIT作为代码管理软件。
+
+目前GIT部分代码托管于GOGS，此服务器部署在深圳机房ECS上，目前公司访问需要通过公网，存在一定的安全隐患。
+
+因此计划把公司代码管理系统统一迁移到GITLAB(GITLAB是github的开源实现),GITLAB能够在线方便的实现GITLAB版本的打TAG，打分支。GITLAB的merge_requests功能可以用来后期做代码review。
+
+迁移方案
+
+技术部帐号注册
+
+访问 http://gitlab.apitops.com/ 在右下角Create an account注册区域，name请填写你中文的名称，username填写英文的登录名，邮箱填写公司邮箱，密码填写你自己的密码。然后你等邮件会收到一份确认邮件。按照上面提示访问即完成帐号注册。
+
+然后联系运维把自己帐号放入对应group，以便于参与对应项目软件开发。
+
+个人机器配置GIT环境
+
+git 推荐使用命令行操作，GUI可以使用sourcetree smartgit等工具。可以参考下面的参考消息安装git工具
+
+http://www.cnblogs.com/monodin/p/3268679.html
+
+https://zhuanghongkuan1.gitbooks.io/demo0115/content/chapter4/sc4-3.html
+
+代码导入
+
+GIT 项目可以直接修改指向push到gitlab即完成代码迁移。
+
+SVN 项目需要重做commit，可联系运维迁移。
+
+git操作
+
+以下为一些git操作参考文章，后期会组织做一些GIT使用的培训。
+
+http://wiki.jikexueyuan.com/project/github-basics/
+
+http://wiki.jikexueyuan.com/project/pro-git-two/
+
+

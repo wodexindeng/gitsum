@@ -1,0 +1,150 @@
+http://blog.csdn.net/dengsilinming/article/details/8000622
+这个网页对这些命令进行了总结，比较全面，值得参考
+
+
+如果要在一台机器上同时使用两个git账号，需要使用git config进行配置，同时还需要生成ssh key，具体可以在网上查找
+git config相关网页
+http://blog.csdn.net/joe_007/article/details/7276195
+
+
+git reset
+http://www.cnblogs.com/craftor/archive/2012/11/04/2754140.html
+
+
+
+
+任意新建一个文件夹，只需要在文件夹中执行
+git init
+就可以创建一个本地仓库，具体使用的用户，如果没有配置，那就是全局用户名，如果使用git config专门配置了用户，那就会是指定的用户
+
+查看本地分支
+git branch 
+查看远程分支
+git branch -r
+查看全部分支
+git branch -a
+删除分支
+git branch -d <branch-name>(如果分支没有合并，不能删除)
+强行删除
+git branch -D <branch-name>（无论如何，都会删除分支>
+如果本地已经有一个本地分支branch-name,远程有origin/branch-name，可以将二者关联起来
+git branch --set-upstream branch-name origin/branch-name（不要--set-upstream选项也是可以的)
+
+
+本地新建分支并切换到新分支
+git checkout -b <newBranchName>
+一般本地只有一个master分支，如果需要将远程的其它分支也拉取下来，并且在本地新建一个同名的分支，并与之关联
+git checkout -t origin/framework     这样之后，本地也会新建一个framework分支，并且与origin/framework对应起来
+切换到指定的本地分支上
+git checkout -b branch-name origin/branch-name(测试过，这个也可以和上面的-t选项一样，在本地建立分支branch-name,并与远程分支关联，这里应该在本地还会切换到branch-name分支上)
+git checkout <localbranch>
+git checkout命令主要处理的是分支相关的一些操作，但是，它也有一个很奇怪的使用方式如下：
+git checkout -- file　　　　　　　　可以放弃目前工作区中全部的修改
+
+
+合并分支命令
+比如说在master分支上，要将dev的工作成果合并到master来
+git merge dev
+
+
+将单个文件添加到暂存区(stage)
+git add <file>
+将全部的文件都添加到暂存区(stage)
+git add .
+
+目前，本地的git版本是1.9.1
+如果删除了一个文件，用git add无法添加到暂存区必须使用下面的命令
+git rm　<file>
+
+
+git commit -m "commit message"
+git commit -a -a代表add，把所有的change加到暂存区然后commit
+
+git pull
+
+git push
+假如是第一次推送到远程库，添加了-u选项后，不仅会把本地master的内容推送到远程，还能够将master和origin master关联起来，以后在master上工作的时候，直接git push，就等于是指定将master的内容推送到origin master上
+git push -u origin master
+
+显示整个commit的列表，按照时间倒序排列
+git log
+git log --pretty=oneline        这样输出比较简洁一些
+
+
+如果已经commit，想要回退到某个提交的版本，命令如下,git reset详情见上面的链接
+回退到上一个版本
+git reset --hard HEAD^
+回退到上上个版本
+git reset -hard HEAD^^
+回退到上100个版本
+git reset -hard HEAD~100
+如果要回退到某个指定的版本
+git reset --hard 3628164(这个版本号是通过git log获取到的，那个版本号很长，不必写全，git会自动去匹配，如果匹配到很多个，git应该会报错
+如果向前回退了，再git log的时候，就不再能够找到原来的版本了，这时候必须借助于
+git reflog
+通过这个命令的输出可以找到原来的版本号，再执行git reset --hard 就可以又回去了
+git reset HEAD readme.txt(这是reset的一类用法，用版本库中的指定版本，这里HEAD就是最新版本,重置暂存区的readme.txt文件,相当于回退之前的git add readme.txt）
+git reset HEAD(这就是重置暂存区的全部文件，相当于回退之前全部的git add)
+
+
+比较工作区与本地版本库的文件差异
+git diff HEAD -- readme.txt    (前面的HEAD应该指的是版本库中的最新版本，而后面的文件名指的是工作区中的文件)
+
+
+git remote相关的命令主要是操作远程仓库，一定要将远程库和远程分支区分开
+下面的命令会将本地的仓库和一个远程仓库关联起来，但是不确定是否能够用于添加远程仓库
+git remote add [name] [url]
+git remote add origin git@github.com:michaelliao/learngit.git(远程库的名字一般是origin,这是默认叫法)
+查看远程库信息
+git remote（该命令只会显示远程仓库的名称，一般是远程仓库的默认名称origin)
+git remote -v(显示更加详细的信息,如果没有推送权限，看不到push的地址)
+
+
+
+git clone git@github.com:wodexindeng/gitskills.git
+
+
+
+
+git stash相关命令（藏匿工作区)
+假如在一个分支上工作了一些，但是还没有提交，但是现在马上要在当前分支上创建一个子分支，但是很显然，这会把当前工作区的修改也创建到子分支上去，但是，我们需要的是在上一次提交的节点创建分支，这时候使用
+git stash
+将当前工作区的修改隐藏起来，这个时候使用git status去查看，会发现工作区干净了
+使用
+git stash list
+查看stash的情况，可以多次stash
+恢复的时候有两种方式
+(1)git stash apply(恢复)
+git stash drop（删除stash）
+(2)git stash pop（恢复的同时删除stash）
+
+
+
+git tag命令是打标签，对于某个特定的commit id打上标签，可以说明该提交的一些信息（比如说版本信息),其实tag也只是一个简单的指针
+git tag v1.0(给当前最新的commit打上v1.0的标签)
+git tag v0.9 6224937(对指定的commit打上v0.9标签)
+git tag -a v0.1 -m 'version 0.1 released' 3628164（创建带有说明的标签，-a后面是标签名，-m后面是说明文字)
+git tag(列出标签，不是按照时间顺序排序，而是按照字母顺序排序)
+git show <tagname>　　使用这个命令可以看到标签的说明文字
+git tag -d v1.0　本地删除标签v1.0
+git push origin v1.0（将本地的v1.0标签推送到远程)
+git push origin --tags（可以没有origin，将所有未推送的标签推送到远程)
+如果标签已经推送到远程，要删除标签，首先在本地删除，然后执行
+git push origin :refs/tags/v0.9
+就可以把远程的标签删除
+如果本地缺少远程的tag，直接git pull就可以了
+
+
+
+
+
+
+编写.gitignore，忽略某些特殊文件,很多现成的.gitignore文件已经写好，可以直接使用，在如下地址可以取到
+https://github.com/github/gitignore
+
+
+
+
+
+
+
