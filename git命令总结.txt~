@@ -141,7 +141,11 @@ git push origin :refs/tags/v0.9
 
 编写.gitignore，忽略某些特殊文件,很多现成的.gitignore文件已经写好，可以直接使用，在如下地址可以取到
 https://github.com/github/gitignore
-
+对于ignore的文件，如果想强行添加到版本控制中，执行
+git add -f App.class
+如果要检查.gitigore晓得规则是否有问题，可以使用
+git check-ignore -v App.class
+就会输出对应的过滤规则
 
 
 
